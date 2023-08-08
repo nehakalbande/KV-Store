@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: key-value-store-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: key-value-store-api
+  template:
+    metadata:
+      labels:
+        app: key-value-store-api
+    spec:
+      containers:
+        - name: key-value-store-api
+          image: key-value-store-api:latest 
+          ports:
+            - containerPort: 5000

@@ -1,0 +1,13 @@
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: key-value-store-api
+spec:
+  selector:
+    app: key-value-store-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
