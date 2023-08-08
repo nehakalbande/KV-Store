@@ -1,12 +1,22 @@
 // app.js
 
 const express = require("express");
+const promBundle = require('express-prom-bundle');
+const promClient = require('prom-client');
 const bodyParser = require("body-parser");
 const { Summary, Counter, register } = require("prom-client");
 const KeyValueStore = require("./store");
 
 const app = express();
 const store = new KeyValueStore();
+
+const registry = new promClient.Registry();
+
+promClient.collectDefaultMetrics({ register: registry });
+
+// Middleware to instrument HTTP requests
+const metricsMiddleware = promBundle({ includeMethod: true, promClient: registry });
+app.use(metricsMiddleware)
 
 const REQUEST_LATENCY = new Summary({
   name: "request_latency_seconds",
